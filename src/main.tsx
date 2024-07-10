@@ -1,3 +1,4 @@
+import Provider from "@/common/providers";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -7,6 +8,8 @@ import "@/common/styles/globals.scss";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
-		<AppModule />
+		<Provider>
+			<AppModule />
+		</Provider>
 	</React.StrictMode>,
 );

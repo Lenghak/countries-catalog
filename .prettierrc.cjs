@@ -65,5 +65,11 @@ module.exports = {
 				parser: "markdown",
 			},
 		},
+		{
+			files: "*.html",
+			options: {
+				parser: "html",
+			},
+		},
 	],
 };
