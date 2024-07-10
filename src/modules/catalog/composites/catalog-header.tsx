@@ -15,7 +15,7 @@ export function CatalogHeader({ className, ...props }: Props) {
 	return (
 		<header
 			className={cn(
-				"flex w-full items-center justify-between gap-4 px-8 py-4",
+				"flex w-full items-center justify-between gap-4 p-4",
 				className,
 			)}
 			{...props}
