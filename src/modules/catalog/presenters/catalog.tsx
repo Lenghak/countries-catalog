@@ -1,6 +1,7 @@
 import { CatalogTitle } from "@/modules/catalog/components/catalog-title";
 import { SearchBar } from "@/modules/catalog/components/search-bar";
 import { CatalogFilters } from "@/modules/catalog/composites/catalog-filters";
+import { CatalogFooter } from "@/modules/catalog/composites/catalog-footer";
 import { CatalogHeader } from "@/modules/catalog/composites/catalog-header";
 import { CountriesDetailSheet } from "@/modules/catalog/composites/countries-detail-dialog";
 import { CountriesList } from "@/modules/catalog/composites/countries-list";
@@ -49,16 +50,16 @@ export function Catalog() {
 	return (
 		<CatalogLayout>
 			<CatalogHeader />
-			<main className="flex h-full w-full flex-col items-center gap-4">
+			<main className="flex h-fit w-full flex-col items-center gap-4">
 				<SearchBar />
 
-				<div className="container flex w-full items-end justify-between gap-8">
+				<div className="flex w-full items-end justify-between gap-8 p-6">
 					<CatalogTitle />
 					<CatalogFilters />
 				</div>
 				<CountriesList />
 			</main>
-
+			<CatalogFooter />
 			<CountriesDetailSheet />
 		</CatalogLayout>
 	);

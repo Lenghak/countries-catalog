@@ -18,6 +18,8 @@ export function useGetCountriesByNameService({
 		queryFn: async () => await getCountriesByNameApi({ name }),
 		refetchOnMount: false,
 		refetchOnReconnect: false,
+		notifyOnChangeProps: "all",
+		retry: 1,
 		...options,
 	});
 }

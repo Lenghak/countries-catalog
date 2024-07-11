@@ -24,7 +24,7 @@ export function CatalogHeader({ className, ...props }: Props) {
 				<Logo />
 			</nav>
 
-			<div className="flex w-fit items-center justify-center gap-4">
+			<div className="flex w-fit items-center justify-center gap-4 px-2">
 				<a
 					href="https://github.com/Lenghak/countries-catalog"
 					className={cn(

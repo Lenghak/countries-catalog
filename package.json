@@ -1,4 +1,5 @@
 {
+	"homepage": "http://lenghak.github.io/countries-catalog",
 	"name": "countries-catalog",
 	"private": true,
 	"version": "0.0.1",
@@ -7,7 +8,7 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"predeploy": "pnpm build",
-		"up": "pnpm gh-pages -d build",
+		"deploy": "pnpm gh-pages -d dist",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
 		"cruise": "pnpm depcruise src -p --exclude vite-env.d.ts"
@@ -44,7 +45,7 @@
 		"@radix-ui/react-toggle-group": "^1.1.0",
 		"@radix-ui/react-tooltip": "^1.1.2",
 		"@t3-oss/env-core": "^0.10.1",
-		"@tanstack/react-query": "^5.50.1",
+		"@tanstack/react-query": "^5.51.1",
 		"axios": "^1.7.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
