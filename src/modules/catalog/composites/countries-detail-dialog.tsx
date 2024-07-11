@@ -22,7 +22,11 @@ export function CountriesDetailSheet() {
 	const [searchParams] = useSearchParams();
 	React.useEffect(() => {
 		if (!countryDialog.open) {
-			history.replaceState(undefined, "", "/?" + searchParams.toString());
+			history.replaceState(
+				undefined,
+				"",
+				"/countries-catalog/?" + searchParams.toString(),
+			);
 		}
 	}, [countryDialog, searchParams]);
 
