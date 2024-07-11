@@ -24,6 +24,7 @@ module.exports = {
 		"^@/common/hooks/(.*)$",
 		"^@/common/lib/(.*)$",
 		"^@/common/providers/(.*)$",
+		"^@/common/services/(.*)$",
 
 		"^@auth/(.*)$",
 

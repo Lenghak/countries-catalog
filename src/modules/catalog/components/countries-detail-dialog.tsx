@@ -1,0 +1,3 @@
+export function CountriesDetailDialog() {
+	return;
+}

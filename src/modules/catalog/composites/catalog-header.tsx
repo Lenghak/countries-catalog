@@ -1,7 +1,7 @@
-import { buttonVariants } from "@/common/components/ui/button";
-import { Separator } from "@/common/components/ui/separator";
-
 import { cn } from "@/common/lib/utils";
+
+import { buttonVariants } from "@ui/button";
+import { Separator } from "@ui/separator";
 
 import { Logo } from "@custom/logo";
 import { ThemeToggle } from "@custom/theme-toggle";
