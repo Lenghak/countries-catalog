@@ -8,7 +8,7 @@ import { Link, type LinkProps } from "react-router-dom";
 export function BackButton({ className, ...props }: Omit<LinkProps, "to">) {
 	return (
 		<Link
-			to={"/"}
+			to={"/countries-catalog"}
 			className={cn(
 				buttonVariants({ variant: "default", size: "lg" }),
 				"items-center gap-3 rounded-full",

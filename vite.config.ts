@@ -16,4 +16,5 @@ export default defineConfig({
 			"@ui": path.resolve(__dirname, "./src/common/components/ui"),
 		},
 	},
+	base : "/countries-catalog/",
 });

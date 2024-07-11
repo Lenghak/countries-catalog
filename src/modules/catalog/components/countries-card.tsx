@@ -1,3 +1,5 @@
+import { TypographyMuted } from "@/common/components/ui/muted";
+
 import {
 	Card,
 	CardContent,
@@ -9,6 +11,8 @@ import {
 import { Image } from "@custom/image";
 
 import { cn } from "@lib/utils";
+
+import { Fragment } from "react/jsx-runtime";
 
 import type { CountryType } from "@/common/types/countries";
 
@@ -38,7 +42,47 @@ export function CountriesCard({ country, className, ...props }: Props) {
 					{country?.name?.official}
 				</CardDescription>
 			</CardHeader>
-			<CardContent></CardContent>
+			<CardContent>
+				<CountryDetails country={country} />
+			</CardContent>
 		</Card>
+	);
+}
+
+type CountryDetailProps = {
+	country: CountryType;
+};
+
+function CountryDetails({ country }: CountryDetailProps) {
+	return (
+		<div className="grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
+			<CountryDetailPoint
+				title="CCA2"
+				value={country.cca2}
+			/>
+
+			<CountryDetailPoint
+				title="CCA3"
+				value={country.cca3}
+			/>
+
+			<CountryDetailPoint
+				title="IDD"
+				value={`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}
+			/>
+		</div>
+	);
+}
+
+type CountryDetailPointProps = {
+	title: React.ReactNode;
+	value: React.ReactNode;
+};
+function CountryDetailPoint({ title, value }: CountryDetailPointProps) {
+	return (
+		<Fragment>
+			<TypographyMuted>{title}</TypographyMuted>
+			{value}
+		</Fragment>
 	);
 }
