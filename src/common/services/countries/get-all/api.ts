@@ -9,5 +9,5 @@ export async function getAllCountriesApi() {
 		CountriesResponseType,
 		AxiosResponse<CountriesResponseType>,
 		never
-	>("/v3.1/all");
+	>("/v3.1/all?fields=name,flags,cca2,cca3,altSpellings,idd");
 }

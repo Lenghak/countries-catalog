@@ -75,7 +75,14 @@ export function SearchBar({ handleSubmit }: Props) {
 									<Button
 										onClick={async () => {
 											form.reset({ country: "" });
-											await form.trigger();
+											setSearchParams(
+												(prev) => {
+													prev.set("country", "");
+													prev.set("page", "1");
+													return prev;
+												},
+												{ replace: true },
+											);
 										}}
 										type="button"
 										variant={"ghost"}

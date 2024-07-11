@@ -28,7 +28,8 @@
 
 			"@providers/*": ["./src/common/providers/*"],
 			"@custom/*": ["./src/common/components/custom/*"],
-			"@ui/*": ["./src/common/components/ui/*"]
+			"@ui/*": ["./src/common/components/ui/*"],
+			"@lib/*": ["./src/common/lib/*"]
 		}
 	},
 	"include": ["src"]

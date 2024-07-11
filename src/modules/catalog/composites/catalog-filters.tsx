@@ -1,10 +1,9 @@
 import { CatalogSortDropDown } from "@/modules/catalog/components/catalog-sort-dropdown";
 
-import { TypographyMuted } from "@/common/components/ui/muted";
-
-import { cn } from "@/common/lib/utils";
-
+import { TypographyMuted } from "@ui/muted";
 import { Separator } from "@ui/separator";
+
+import { cn } from "@lib/utils";
 
 import type { HTMLAttributes } from "react";
 import { useSearchParams } from "react-router-dom";

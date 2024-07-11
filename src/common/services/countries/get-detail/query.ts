@@ -12,7 +12,10 @@ type QueryOption = CountriesRequestType &
 export function useGetCountryDetailService({ name, ...options }: QueryOption) {
 	return useQuery({
 		queryKey: countriesKeys.detail(name),
-		queryFn: async () => await getCountryDetailApi({ name }),
+		queryFn: async () =>
+			await getCountryDetailApi({
+				name,
+			}),
 		refetchOnMount: false,
 		refetchOnReconnect: false,
 		...options,

@@ -9,9 +9,13 @@ export function useGetAllCountriesService({
 }: Omit<UseQueryOptions, "queryKey" | "queryFn">) {
 	return useQuery({
 		queryKey: countriesKeys.all,
-		queryFn: async () => await getAllCountriesApi(),
+		queryFn: async () => {
+			const res = await getAllCountriesApi();
+			return res;
+		},
 		refetchOnMount: false,
 		refetchOnReconnect: false,
+		refetchOnWindowFocus: false,
 		refetchInterval: 60 * 60 * 60,
 		...options,
 	});
