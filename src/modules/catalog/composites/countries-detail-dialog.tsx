@@ -96,7 +96,7 @@ function CountriesDetail({
 			className={cn("space-y-12", className)}
 			{...props}
 		>
-			<div className="mt-6 grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
+			<CountriesDetailSectionContent>
 				<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 					<CountriesDetailField
 						label="Common Name"
@@ -150,6 +150,13 @@ function CountriesDetail({
 					/>
 				</CountriesDetailContainer>
 
+				<CountriesDetailContainer className="max-h-36 overflow-y-auto">
+					<CountriesDetailField
+						label="IDD"
+						value={`${country?.idd.root} ${country.idd.suffixes.map((i) => "(" + i + ")").join(",")}`}
+					/>
+				</CountriesDetailContainer>
+
 				<CountriesDetailContainer>
 					<CountriesDetailField
 						label="FIFA"
@@ -180,7 +187,82 @@ function CountriesDetail({
 						}
 					/>
 				</CountriesDetailContainer>
-			</div>
+
+				<CountriesDetailContainer>
+					<CountriesDetailField
+						label="Languages"
+						value={
+							country?.languages
+								? Object.entries(country?.languages)?.map((language, index) => (
+										<CountriesDetailSubField
+											key={JSON.stringify(language) ?? "Langauges" + index}
+											subTitle={language[0]}
+											value={language[1]}
+										/>
+									))
+								: "-"
+						}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailSectionContent className="col-span-full divide-y-0 pb-0">
+					<span className="col-span-full grid-cols-1 border-b-2 border-dashed pb-4 font-semibold">
+						Native Name
+					</span>
+
+					{Object.entries(country.name.nativeName).map((name) => (
+						<CountriesDetailContainer
+							key={JSON.stringify(name)}
+							className="col-span-full"
+						>
+							<CountriesDetailField
+								label={name[0]}
+								value={
+									<React.Fragment>
+										<CountriesDetailSubField
+											subTitle={"Common"}
+											value={name[1].common}
+										/>
+										<CountriesDetailSubField
+											subTitle={"Official"}
+											value={name[1].official}
+										/>
+									</React.Fragment>
+								}
+							/>
+						</CountriesDetailContainer>
+					))}
+				</CountriesDetailSectionContent>
+
+				<CountriesDetailSectionContent className="col-span-full divide-y-0 pb-0">
+					<span className="col-span-full grid-cols-1 border-b-2 border-dashed pb-4 font-semibold">
+						Translation
+					</span>
+
+					{Object.entries(country.translations).map((translation) => (
+						<CountriesDetailContainer
+							key={JSON.stringify(translation)}
+							className="col-span-full"
+						>
+							<CountriesDetailField
+								label={translation[0]}
+								value={
+									<React.Fragment>
+										<CountriesDetailSubField
+											subTitle={"Common"}
+											value={translation[1].common}
+										/>
+										<CountriesDetailSubField
+											subTitle={"Official"}
+											value={translation[1].official}
+										/>
+									</React.Fragment>
+								}
+							/>
+						</CountriesDetailContainer>
+					))}
+				</CountriesDetailSectionContent>
+			</CountriesDetailSectionContent>
 
 			<CountriesDetailSection
 				title={"Flags " + country?.flag}
@@ -231,7 +313,7 @@ function CountriesDetail({
 					</span>
 				}
 			>
-				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
+				<CountriesDetailSectionContent>
 					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 						<CountriesDetailField
 							label="Population"
@@ -328,19 +410,28 @@ function CountriesDetail({
 					<CountriesDetailContainer>
 						<CountriesDetailField
 							label="Time zone(s)"
-							value={country?.timezones.map((time) => (
-								<React.Fragment key={time}>{time}</React.Fragment>
-							))}
+							value={
+								<div className="flex flex-wrap items-end justify-end">
+									{country?.timezones.map((time) => (
+										<span
+											key={time}
+											className="mb-4"
+										>
+											{time}
+										</span>
+									))}
+								</div>
+							}
 						/>
 					</CountriesDetailContainer>
-				</div>
+				</CountriesDetailSectionContent>
 
 				<div className="flex flex-col flex-wrap items-center justify-center gap-4">
 					<figure className="flex w-full flex-col items-center justify-center gap-4">
 						<iframe
 							width="100%"
 							height="600"
-							src={country?.maps.googleMaps}
+							src={country?.maps?.googleMaps}
 						>
 							<a href="https://www.gps.ie/sport-gps/">gps watches</a>
 						</iframe>
@@ -351,7 +442,7 @@ function CountriesDetail({
 									buttonVariants({ variant: "link", size: "sm" }),
 									"self-start rounded-full text-base",
 								)}
-								href={country?.maps.googleMaps}
+								href={country?.maps?.googleMaps}
 								target="_blank"
 							>
 								Link
@@ -363,11 +454,11 @@ function CountriesDetail({
 						<iframe
 							width="100%"
 							height="600"
-							src={country?.maps.openStreetMaps}
+							src={country?.maps?.openStreetMaps}
 						></iframe>
 
 						<small>
-							<a href={country?.maps.openStreetMaps}>View Larger Map</a>
+							<a href={country?.maps?.openStreetMaps}>View Larger Map</a>
 						</small>
 						<figcaption className="font-semibold italic">
 							Open Street View -
@@ -376,7 +467,7 @@ function CountriesDetail({
 									buttonVariants({ variant: "link", size: "sm" }),
 									"self-start rounded-full text-base",
 								)}
-								href={country?.maps.openStreetMaps}
+								href={country?.maps?.openStreetMaps}
 								target="_blank"
 							>
 								Link
@@ -395,7 +486,7 @@ function CountriesDetail({
 					</span>
 				}
 			>
-				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
+				<CountriesDetailSectionContent>
 					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 						<CountriesDetailField
 							label="Status"
@@ -475,7 +566,56 @@ function CountriesDetail({
 							}
 						/>
 					</CountriesDetailContainer>
-				</div>
+
+					<CountriesDetailSectionContent className="col-span-full divide-y-0 pb-0">
+						<span className="col-span-full grid-cols-1 border-b-2 border-dashed pb-4 font-semibold">
+							Demonyms
+						</span>
+
+						{Object.entries(country.demonyms).map((demonyms) => (
+							<CountriesDetailContainer
+								key={JSON.stringify(demonyms)}
+								className="col-span-full"
+							>
+								<CountriesDetailField
+									label={demonyms[0]}
+									value={
+										<React.Fragment>
+											<CountriesDetailSubField
+												subTitle={"Female"}
+												value={demonyms[1].f}
+											/>
+											<CountriesDetailSubField
+												subTitle={"Male"}
+												value={demonyms[1].m}
+											/>
+										</React.Fragment>
+									}
+								/>
+							</CountriesDetailContainer>
+						))}
+					</CountriesDetailSectionContent>
+				</CountriesDetailSectionContent>
+
+				<CountriesDetailSectionContent className="divide-y-0">
+					<span className="col-span-full border-b-2 border-dashed pb-4 font-semibold">
+						Car
+					</span>
+
+					<CountriesDetailSubField
+						subTitle={"Side"}
+						value={country?.car.side}
+						className="items-center"
+					/>
+
+					<CountriesDetailSubField
+						subTitle={"Signs"}
+						value={
+							country?.car.signs.length ? country?.car.signs.join(",") : "-"
+						}
+						className="items-center"
+					/>
+				</CountriesDetailSectionContent>
 			</CountriesDetailSection>
 
 			<CountriesDetailSection
@@ -538,6 +678,24 @@ function CountriesDetailSection({
 	);
 }
 
+function CountriesDetailSectionContent({
+	className,
+	children,
+	...props
+}: React.ComponentPropsWithoutRef<"div">) {
+	return (
+		<div
+			className={cn(
+				"grid grid-cols-2 gap-x-12 gap-y-8 divide-y-2 divide-y-reverse divide-dashed py-6",
+				className,
+			)}
+			{...props}
+		>
+			{children}
+		</div>
+	);
+}
+
 function CountriesDetailContainer({
 	className,
 	children,
@@ -562,7 +720,7 @@ function CountriesDetailField({ label, value }: CountriesDetailFieldProps) {
 	return (
 		<React.Fragment>
 			<div className="h-fit w-full text-left font-semibold">{label}</div>
-			<div className="flex flex-wrap items-start justify-end text-right italic">
+			<div className="mb-4 flex flex-wrap items-start justify-end text-right italic">
 				{value}
 			</div>
 		</React.Fragment>
