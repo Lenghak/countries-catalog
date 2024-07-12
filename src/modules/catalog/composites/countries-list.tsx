@@ -1,13 +1,13 @@
-import { CountriesCard } from "@/modules/catalog/components/countries-card";
+import {
+	CountriesCard,
+	CountriesCardSkeleton,
+} from "@/modules/catalog/components/countries-card";
 import { $countryDialogStore } from "@/modules/catalog/stores/country-dialog-store";
 import { ErrorSection } from "@/modules/error/composites/error-section";
 
 import { TypographyH3 } from "@/common/components/ui/h3";
 
 import { countriesKeys } from "@/common/services/keys-factory";
-
-import { Card, CardHeader } from "@ui/card";
-import { Skeleton } from "@ui/skeleton";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { type AxiosError, type AxiosResponse } from "axios";
@@ -31,7 +31,7 @@ export function CountriesList() {
 		| undefined;
 
 	return (
-		<div className="grid w-full grid-cols-1 gap-12 p-6 sm:grid-cols-2 xl:grid-cols-4">
+		<div className="grid w-full grid-cols-1 gap-12 p-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
 			{queryState?.status === "success"
 				? response?.data?.map((country) => (
 						<a
@@ -69,18 +69,6 @@ function CountriesListSkeleton() {
 	return Array(8)
 		.fill(0)
 		.map((_, index) => <CountriesCardSkeleton key={index} />);
-}
-
-function CountriesCardSkeleton() {
-	return (
-		<Card className={"overflow-hidden"}>
-			<Skeleton className={"aspect-video rounded-b-none object-cover"} />
-			<CardHeader className="space-y-4">
-				<Skeleton className="h-6 w-52 max-w-full rounded-full" />
-				<Skeleton className="h-4 w-48 max-w-full rounded-full" />
-			</CardHeader>
-		</Card>
-	);
 }
 
 function CountriesError({ error }: { error: AxiosError }) {

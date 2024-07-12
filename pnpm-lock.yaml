@@ -149,6 +149,9 @@ importers:
       react-icons:
         specifier: ^5.2.1
         version: 5.2.1(react@18.3.1)
+      react-paginate:
+        specifier: ^8.2.0
+        version: 8.2.0(react@18.3.1)
       react-resizable-panels:
         specifier: ^2.0.20
         version: 2.0.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3114,6 +3117,11 @@ packages:
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
+  react-paginate@8.2.0:
+    resolution: {integrity: sha512-sJCz1PW+9PNIjUSn919nlcRVuleN2YPoFBOvL+6TPgrH/3lwphqiSOgdrLafLdyLDxsgK+oSgviqacF4hxsDIw==}
+    peerDependencies:
+      react: ^16 || ^17 || ^18
+
   react-reconciler@0.29.2:
     resolution: {integrity: sha512-zZQqIiYgDCTP/f1N/mAR10nJGrPD2ZR+jDSEsKWJHYC7Cm2wodlwbR3upZRdC3cjIjSlTLNVyO7Iu0Yy7t2AYg==}
     engines: {node: '>=0.10.0'}
@@ -4091,7 +4099,7 @@ snapshots:
       '@antfu/ni': 0.21.12
       '@axiomhq/js': 1.0.0-rc.3
       '@babel/core': 7.24.6
-      '@babel/types': 7.24.6
+      '@babel/types': 7.24.8
       '@clack/prompts': 0.7.0
       cli-high: 0.4.2
       diff: 5.2.0
@@ -6423,6 +6431,11 @@ snapshots:
       react: 18.3.1
 
   react-is@16.13.1: {}
+
+  react-paginate@8.2.0(react@18.3.1):
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.3.1
 
   react-reconciler@0.29.2(react@18.3.1):
     dependencies:

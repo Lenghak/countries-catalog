@@ -1,3 +1,4 @@
+import CatalogPagination from "@/modules/catalog/components/catalog-pagination";
 import { CatalogTitle } from "@/modules/catalog/components/catalog-title";
 import { SearchBar } from "@/modules/catalog/components/search-bar";
 import { CatalogFilters } from "@/modules/catalog/composites/catalog-filters";
@@ -11,16 +12,23 @@ import { useGetCountriesByNameService } from "@/common/services/countries/get-li
 import { countriesKeys } from "@/common/services/keys-factory";
 
 import { useQueryClient } from "@tanstack/react-query";
+import type { AxiosResponse } from "axios";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+
+import type { CountriesResponseType } from "@/common/types/countries";
+import type { PaginationMetaType } from "@/common/types/pagination";
 
 export function Catalog() {
 	const [searchParams] = useSearchParams();
 	const queryClient = useQueryClient();
 
-	useGetCountriesByNameService({
+	const { data: axiosResponse } = useGetCountriesByNameService({
 		name: searchParams.get("country") ?? "",
 	});
+
+	const response = axiosResponse as AxiosResponse<CountriesResponseType> &
+		Record<"meta", PaginationMetaType>;
 
 	useEffect(() => {
 		queryClient.invalidateQueries({
@@ -41,7 +49,10 @@ export function Catalog() {
 					<CatalogFilters />
 				</div>
 				<CountriesList />
+
+				<CatalogPagination pageCount={response?.meta?.totalPages} />
 			</main>
+
 			<CatalogFooter />
 			<CountriesDetailSheet />
 		</CatalogLayout>

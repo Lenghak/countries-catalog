@@ -1,4 +1,4 @@
-import { TypographyMuted } from "@/common/components/ui/muted";
+import { Skeleton } from "@/common/components/ui/skeleton";
 
 import {
 	Card,
@@ -15,7 +15,7 @@ import { cn } from "@lib/utils";
 
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
 import type React from "react";
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren, useId } from "react";
 import { Fragment } from "react/jsx-runtime";
 
 import type { CountryType } from "@/common/types/countries";
@@ -29,15 +29,17 @@ export function CountriesCard({ country, className, ...props }: Props) {
 		<Card
 			{...props}
 			className={cn(
-				"relative rounded-lg transition-all hover:scale-105 hover:shadow-lg",
+				"relative rounded-lg transition-all hover:shadow-xl",
 				className,
 			)}
 		>
-			<Image
-				src={country?.flags?.png}
-				alt={country?.flags?.alt}
-				className="aspect-video w-full rounded-t-lg object-cover"
-			/>
+			<div className="roudned-t-lg aspect-video w-full bg-accent">
+				<Image
+					src={country?.flags?.png}
+					alt={country?.flags?.alt}
+					className="aspect-video w-full rounded-t-lg object-cover"
+				/>
+			</div>
 			<CardHeader>
 				<CardTitle className="line-clamp-1 font-extrabold">
 					{country.name.common}
@@ -73,7 +75,7 @@ function CountryDetails({ country }: CountryDetailProps) {
 			<CountryDetailPoint
 				title="IDD"
 				value={
-					<span className="overflow-hidden text-ellipsis">{`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}</span>
+					<span className="line-clamp-1 max-w-full overflow-ellipsis whitespace-nowrap">{`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}</span>
 				}
 			/>
 
@@ -131,8 +133,10 @@ type CountryDetailPointProps = {
 function CountryDetailPoint({ title, value }: CountryDetailPointProps) {
 	return (
 		<Fragment>
-			<TypographyMuted>{title}</TypographyMuted>
-			{value}
+			<div className="text-sm font-semibold text-muted-foreground">{title}</div>
+			<div className="relative place-self-end self-end text-right text-sm">
+				{value}
+			</div>
 		</Fragment>
 	);
 }
@@ -148,17 +152,39 @@ function CountryDetialHoverCard({
 	...props
 }: CountryDetialHoverCardProps) {
 	return (
-		<HoverCard
-			openDelay={0}
-			closeDelay={0}
-		>
+		<HoverCard openDelay={0}>
 			<HoverCardTrigger asChild>{trigger}</HoverCardTrigger>
 			<HoverCardContent
 				side="top"
+				align="end"
 				{...props}
 			>
 				{children}
 			</HoverCardContent>
 		</HoverCard>
+	);
+}
+
+export function CountriesCardSkeleton() {
+	const id = useId();
+	return (
+		<Card className={"overflow-hidden"}>
+			<Skeleton className={"aspect-video rounded-b-none rounded-t-lg"} />
+			<CardHeader className="space-y-4">
+				<Skeleton className="h-6 w-52 max-w-full rounded-full" />
+				<Skeleton className="h-4 w-48 max-w-full rounded-full" />
+			</CardHeader>
+			<CardContent className="relative grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
+				{Array(4)
+					.fill(0)
+					.map((_, index) => (
+						<CountryDetailPoint
+							key={id + index}
+							title={<Skeleton className="h-4 w-full max-w-24 rounded-full" />}
+							value={<Skeleton className="h-4 w-full max-w-32 rounded-full" />}
+						/>
+					))}
+			</CardContent>
+		</Card>
 	);
 }
