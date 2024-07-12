@@ -25,7 +25,7 @@ export function useGetCountriesByNameService({
 	const parsedPage = isNaN(page) ? 1 : page;
 
 	return useQuery({
-		queryKey: countriesKeys.list(name),
+		queryKey: countriesKeys.list(name ?? ""),
 		queryFn: async () => {
 			const response = country
 				? await getCountriesByNameApi({ name })

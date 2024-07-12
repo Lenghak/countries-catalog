@@ -21,6 +21,7 @@ import { Image } from "@custom/image";
 
 import { useStore } from "@nanostores/react";
 import type { AxiosResponse } from "axios";
+import { CheckIcon, XIcon } from "lucide-react";
 import * as React from "react";
 import { useSearchParams } from "react-router-dom";
 
@@ -95,7 +96,32 @@ function CountriesDetail({
 			className={cn("space-y-12", className)}
 			{...props}
 		>
-			<div className="mt-6 grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed">
+			<div className="mt-6 grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
+				<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
+					<CountriesDetailField
+						label="Common Name"
+						value={country?.name.common}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
+					<CountriesDetailField
+						label="Official Name"
+						value={country?.name.official}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
+					<CountriesDetailField
+						label="Alternative Name"
+						value={
+							<pre className="leading-loose">
+								{country?.altSpellings?.map((spelling) => spelling + "\n")}
+							</pre>
+						}
+					/>
+				</CountriesDetailContainer>
+
 				<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 					<CountriesDetailField
 						label="CCA2"
@@ -120,13 +146,44 @@ function CountriesDetail({
 				<CountriesDetailContainer>
 					<CountriesDetailField
 						label="CIOC"
-						value={country?.cioc}
+						value={country?.cioc ?? "-"}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailContainer>
+					<CountriesDetailField
+						label="FIFA"
+						value={country?.fifa}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailContainer>
+					<CountriesDetailField
+						label="Start of week"
+						value={<span className="capitalize">{country?.startOfWeek}</span>}
+					/>
+				</CountriesDetailContainer>
+
+				<CountriesDetailContainer>
+					<CountriesDetailField
+						label="Postal Code"
+						value={
+							country?.postalCode
+								? Object.entries(country?.postalCode)?.map((code, index) => (
+										<CountriesDetailSubField
+											key={JSON.stringify(code) ?? "code" + index}
+											subTitle={code[0]}
+											value={code[1]}
+										/>
+									))
+								: "-"
+						}
 					/>
 				</CountriesDetailContainer>
 			</div>
 
 			<CountriesDetailSection
-				title={"Flags"}
+				title={"Flags " + country?.flag}
 				description={country?.flags.alt}
 			>
 				<div className="grid grid-cols-2 grid-rows-1 gap-6">
@@ -164,7 +221,7 @@ function CountriesDetail({
 						</span>
 						is a{" "}
 						<span className="font-bold text-foreground">
-							{country?.area}-sized{" "}
+							{country?.area}KM<sup>2</sup>-sized{" "}
 						</span>
 						country bordered by{" "}
 						<span className="font-bold text-foreground">
@@ -174,7 +231,21 @@ function CountriesDetail({
 					</span>
 				}
 			>
-				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed">
+				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
+					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
+						<CountriesDetailField
+							label="Population"
+							value={country?.population}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
+						<CountriesDetailField
+							label="Latlong"
+							value={JSON.stringify(country?.latlng)}
+						/>
+					</CountriesDetailContainer>
+
 					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 						<CountriesDetailField
 							label="Area"
@@ -203,6 +274,63 @@ function CountriesDetail({
 										))
 									: "-"
 							}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Capital"
+							value={country?.capital?.join(", ")}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Capital Latlong"
+							value={JSON.stringify(country?.capitalInfo?.latlng)}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Region"
+							value={country?.region}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Sub Region"
+							value={country?.subregion}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Continent"
+							value={country?.continents + " "}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Land locked"
+							value={
+								country?.landlocked ? (
+									<CheckIcon className="size-4" />
+								) : (
+									<XIcon className="size-4" />
+								)
+							}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Time zone(s)"
+							value={country?.timezones.map((time) => (
+								<React.Fragment key={time}>{time}</React.Fragment>
+							))}
 						/>
 					</CountriesDetailContainer>
 				</div>
@@ -259,37 +387,127 @@ function CountriesDetail({
 			</CountriesDetailSection>
 
 			<CountriesDetailSection
-				title={"More details"}
+				title={"Goverment"}
 				description={
 					<span>
-						The rest of the infomation about{" "}
+						The structure or types of the goverment system of{" "}
 						<span className="font-bold">{country?.name.common}</span>
 					</span>
 				}
 			>
-				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed">
+				<div className="grid grid-cols-2 gap-x-12 gap-y-6 divide-y-2 divide-y-reverse divide-dashed py-6">
 					<CountriesDetailContainer className="first:border-b-2 first:border-dashed">
 						<CountriesDetailField
-							label="Population"
-							value={country?.population}
+							label="Status"
+							value={country?.status}
 						/>
 					</CountriesDetailContainer>
 
 					<CountriesDetailContainer>
 						<CountriesDetailField
-							label="FIFA"
-							value={country?.fifa}
+							label="Independent"
+							value={
+								country?.independent ? (
+									<CheckIcon className="size-4" />
+								) : (
+									<XIcon className="size-4" />
+								)
+							}
 						/>
 					</CountriesDetailContainer>
 
 					<CountriesDetailContainer>
 						<CountriesDetailField
-							label="Start of week"
-							value={<span className="capitalize">{country?.startOfWeek}</span>}
+							label="UN-Member"
+							value={
+								country?.unMember ? (
+									<CheckIcon className="size-4" />
+								) : (
+									<XIcon className="size-4" />
+								)
+							}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Top level domain"
+							value={country?.tld + " "}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Currencies"
+							value={Object.entries(country?.currencies).map(
+								(currency, index) => (
+									<CountriesDetailSubField
+										key={JSON.stringify(currency) ?? "currency" + index}
+										subTitle={
+											<span>
+												{currency[0]}{" "}
+												<span className="font-bold">
+													({currency[1].symbol})
+												</span>
+											</span>
+										}
+										value={currency[1].name}
+										className="mb-4"
+									/>
+								),
+							)}
+						/>
+					</CountriesDetailContainer>
+
+					<CountriesDetailContainer>
+						<CountriesDetailField
+							label="Gini"
+							value={
+								country?.gini
+									? Object.entries(country?.gini)?.map((gindex, index) => (
+											<CountriesDetailSubField
+												key={JSON.stringify(gindex) ?? "gini" + index}
+												subTitle={gindex[0]}
+												value={<span>{gindex[1]}</span>}
+											/>
+										))
+									: "-"
+							}
 						/>
 					</CountriesDetailContainer>
 				</div>
 			</CountriesDetailSection>
+
+			<CountriesDetailSection
+				title={"Coat of Arms"}
+				description={
+					"The hornor coat of arms representing the country's images"
+				}
+			>
+				<div className="grid grid-cols-2 grid-rows-1 gap-6">
+					<figure className="flex flex-col items-center justify-center gap-4">
+						<Image
+							src={country?.coatOfArms?.png}
+							alt={country?.name?.common + "'s coat of arms PNG"}
+							className="w-full object-contain"
+						/>
+						<figcaption className="font-semibold italic">PNG</figcaption>
+					</figure>
+
+					<figure className="flex flex-col items-center justify-center gap-4">
+						<Image
+							src={country?.coatOfArms?.svg}
+							alt={country?.name?.common + "'s coat of arms SVG"}
+							className="w-full object-contain"
+						/>
+						<figcaption className="font-semibold italic">SVG</figcaption>
+					</figure>
+				</div>
+			</CountriesDetailSection>
+
+			<div className="flex w-full items-center justify-center font-bold italic">
+				- End of result -
+			</div>
 		</div>
 	);
 }
@@ -312,7 +530,7 @@ function CountriesDetailSection({
 		>
 			<div className="space-y-2">
 				<TypographyH2 className="font-bold">{title}</TypographyH2>
-				<TypographyP>{description}</TypographyP>
+				<TypographyP className="text-justify">{description}</TypographyP>
 			</div>
 
 			{children}
@@ -338,6 +556,7 @@ function CountriesDetailContainer({
 type CountriesDetailFieldProps = {
 	label: React.ReactNode;
 	value: React.ReactNode;
+	valueClassName?: string;
 };
 function CountriesDetailField({ label, value }: CountriesDetailFieldProps) {
 	return (
@@ -347,5 +566,27 @@ function CountriesDetailField({ label, value }: CountriesDetailFieldProps) {
 				{value}
 			</div>
 		</React.Fragment>
+	);
+}
+
+type CountriesDetailSubFieldProps = {
+	subTitle: React.ReactNode;
+} & Omit<CountriesDetailFieldProps, "label"> &
+	React.ComponentPropsWithoutRef<"div">;
+
+function CountriesDetailSubField({
+	value,
+	subTitle,
+	className,
+	...props
+}: CountriesDetailSubFieldProps) {
+	return (
+		<div
+			className={cn("mb-4 flex w-full flex-col items-end italic", className)}
+			{...props}
+		>
+			<div className="text-sm text-muted-foreground">{subTitle}</div>
+			{value}
+		</div>
 	);
 }

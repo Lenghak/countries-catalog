@@ -39,6 +39,7 @@ export const CountrySchema = z.object({
 	flag: z.string(),
 	maps: z.object({ googleMaps: z.string(), openStreetMaps: z.string() }),
 	population: z.number(),
+	gini: z.record(z.string(), z.number()).optional(),
 	fifa: z.string(),
 	car: z.object({ signs: z.array(z.string()), side: z.string() }),
 	timezones: z.array(z.string()),
