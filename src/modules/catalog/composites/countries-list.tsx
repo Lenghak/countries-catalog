@@ -24,14 +24,7 @@ export function CountriesList() {
 	);
 
 	const queryClient = useQueryClient();
-	const allCountriesKey = countriesKeys.all;
-
-	const searchQueryState = queryClient.getQueryState(searchCountriesKey);
-
-	const allQueryState = queryClient.getQueryState(allCountriesKey);
-	const queryState = searchParams.get("country")
-		? searchQueryState
-		: allQueryState;
+	const queryState = queryClient.getQueryState(searchCountriesKey);
 
 	const response = queryState?.data as
 		| AxiosResponse<CountriesResponseType>
