@@ -15,8 +15,7 @@ import { cn } from "@lib/utils";
 
 import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
 import type React from "react";
-import { type PropsWithChildren, useId } from "react";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment, type PropsWithChildren, useId } from "react";
 
 import type { CountryType } from "@/common/types/countries";
 
@@ -42,7 +41,7 @@ export function CountriesCard({ country, className, ...props }: Props) {
 			</div>
 			<CardHeader>
 				<CardTitle className="line-clamp-1 font-extrabold">
-					{country.name.common}
+					{country?.name.common}
 				</CardTitle>
 				<CardDescription className="line-clamp-1 font-semibold">
 					{country?.name?.official}
@@ -61,21 +60,21 @@ type CountryDetailProps = {
 
 function CountryDetails({ country }: CountryDetailProps) {
 	return (
-		<div className="relative grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
+		<div className="relative grid h-full w-full grid-cols-1 gap-4 overflow-hidden whitespace-nowrap font-semibold">
 			<CountryDetailPoint
 				title="CCA2"
-				value={country.cca2}
+				value={country?.cca2}
 			/>
 
 			<CountryDetailPoint
 				title="CCA3"
-				value={country.cca3}
+				value={country?.cca3}
 			/>
 
 			<CountryDetailPoint
 				title="IDD"
 				value={
-					<span className="line-clamp-1 max-w-full overflow-ellipsis whitespace-nowrap">{`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}</span>
+					<span className="line-clamp-1">{`${country?.idd.root} ${country?.idd.suffixes.length ? "(" + country?.idd.suffixes + ")" : "-"}`}</span>
 				}
 			/>
 
@@ -85,7 +84,7 @@ function CountryDetails({ country }: CountryDetailProps) {
 					<CountryDetialHoverCard
 						trigger={
 							<span className="w-fit border-b-2 border-foreground font-bold">
-								{Object.values(country.name.nativeName).length}
+								{Object.values(country?.name.nativeName).length}
 							</span>
 						}
 						className="grid w-fit grid-cols-[auto,_1fr] gap-4"
@@ -107,7 +106,7 @@ function CountryDetails({ country }: CountryDetailProps) {
 					<CountryDetialHoverCard
 						trigger={
 							<span className="w-fit border-b-2 border-foreground font-bold">
-								{Object.values(country.altSpellings).length}
+								{Object.values(country?.altSpellings).length}
 							</span>
 						}
 						className="grid w-fit grid-cols-[auto,_1fr] gap-4"
@@ -132,12 +131,14 @@ type CountryDetailPointProps = {
 };
 function CountryDetailPoint({ title, value }: CountryDetailPointProps) {
 	return (
-		<Fragment>
-			<div className="text-sm font-semibold text-muted-foreground">{title}</div>
-			<div className="relative place-self-end self-end text-right text-sm">
+		<div className="flex flex-nowrap items-center justify-between overflow-hidden">
+			<div className="w-full text-sm font-semibold text-muted-foreground">
+				{title}
+			</div>
+			<div className="w-full place-self-end self-end overflow-hidden text-right text-sm">
 				{value}
 			</div>
-		</Fragment>
+		</div>
 	);
 }
 
@@ -174,15 +175,18 @@ export function CountriesCardSkeleton() {
 				<Skeleton className="h-6 w-52 max-w-full rounded-full" />
 				<Skeleton className="h-4 w-48 max-w-full rounded-full" />
 			</CardHeader>
-			<CardContent className="relative grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
+			<CardContent className="relative flex h-fit w-full flex-col gap-4">
 				{Array(4)
 					.fill(0)
 					.map((_, index) => (
-						<CountryDetailPoint
-							key={id + index}
-							title={<Skeleton className="h-4 w-full max-w-24 rounded-full" />}
-							value={<Skeleton className="h-4 w-full max-w-32 rounded-full" />}
-						/>
+						<Fragment key={id + index}>
+							<Skeleton
+								className="h-4 rounded-full"
+								style={{
+									width: `calc(100%*1/${index + 2})`,
+								}}
+							/>
+						</Fragment>
 					))}
 			</CardContent>
 		</Card>

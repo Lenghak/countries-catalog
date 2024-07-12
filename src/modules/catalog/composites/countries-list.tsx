@@ -31,7 +31,7 @@ export function CountriesList() {
 		| undefined;
 
 	return (
-		<div className="grid w-full grid-cols-1 gap-12 p-6 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
+		<div className="grid w-full grid-cols-1 gap-12 p-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
 			{queryState?.status === "success"
 				? response?.data?.map((country) => (
 						<a
@@ -66,7 +66,7 @@ export function CountriesList() {
 }
 
 function CountriesListSkeleton() {
-	return Array(8)
+	return Array(10)
 		.fill(0)
 		.map((_, index) => <CountriesCardSkeleton key={index} />);
 }
