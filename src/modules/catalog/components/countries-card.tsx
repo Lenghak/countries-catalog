@@ -7,11 +7,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@ui/card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@ui/hover-card";
 
 import { Image } from "@custom/image";
 
 import { cn } from "@lib/utils";
 
+import type { HoverCardContentProps } from "@radix-ui/react-hover-card";
+import type React from "react";
+import type { PropsWithChildren } from "react";
 import { Fragment } from "react/jsx-runtime";
 
 import type { CountryType } from "@/common/types/countries";
@@ -25,14 +29,14 @@ export function CountriesCard({ country, className, ...props }: Props) {
 		<Card
 			{...props}
 			className={cn(
-				"overflow-hidden transition-all hover:scale-105 hover:shadow-lg",
+				"relative rounded-lg transition-all hover:scale-105 hover:shadow-lg",
 				className,
 			)}
 		>
 			<Image
 				src={country?.flags?.png}
 				alt={country?.flags?.alt}
-				className="aspect-video w-full object-cover"
+				className="aspect-video w-full rounded-t-lg object-cover"
 			/>
 			<CardHeader>
 				<CardTitle className="line-clamp-1 font-extrabold">
@@ -55,7 +59,7 @@ type CountryDetailProps = {
 
 function CountryDetails({ country }: CountryDetailProps) {
 	return (
-		<div className="grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
+		<div className="relative grid h-full w-full grid-cols-2 gap-4 whitespace-nowrap font-semibold">
 			<CountryDetailPoint
 				title="CCA2"
 				value={country.cca2}
@@ -68,7 +72,53 @@ function CountryDetails({ country }: CountryDetailProps) {
 
 			<CountryDetailPoint
 				title="IDD"
-				value={`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}
+				value={
+					<span className="overflow-hidden text-ellipsis">{`${country.idd.root} ${country.idd.suffixes.length ? "(" + country.idd.suffixes + ")" : "-"}`}</span>
+				}
+			/>
+
+			<CountryDetailPoint
+				title="Native Name(s)"
+				value={
+					<CountryDetialHoverCard
+						trigger={
+							<span className="w-fit border-b-2 border-foreground font-bold">
+								{Object.values(country.name.nativeName).length}
+							</span>
+						}
+						className="grid w-fit grid-cols-[auto,_1fr] gap-4"
+					>
+						{Object.entries(country?.name.nativeName).map((entry) => (
+							<CountryDetailPoint
+								key={entry[0] + entry[1].common}
+								title={entry[0]}
+								value={entry[1].common}
+							/>
+						))}
+					</CountryDetialHoverCard>
+				}
+			/>
+
+			<CountryDetailPoint
+				title="Alt Spelling(s)"
+				value={
+					<CountryDetialHoverCard
+						trigger={
+							<span className="w-fit border-b-2 border-foreground font-bold">
+								{Object.values(country.altSpellings).length}
+							</span>
+						}
+						className="grid w-fit grid-cols-[auto,_1fr] gap-4"
+					>
+						{Object.entries(country?.altSpellings).map((entry) => (
+							<CountryDetailPoint
+								key={entry[0] + entry[1]}
+								title={+entry[0] + 1}
+								value={entry[1]}
+							/>
+						))}
+					</CountryDetialHoverCard>
+				}
 			/>
 		</div>
 	);
@@ -84,5 +134,31 @@ function CountryDetailPoint({ title, value }: CountryDetailPointProps) {
 			<TypographyMuted>{title}</TypographyMuted>
 			{value}
 		</Fragment>
+	);
+}
+
+type CountryDetialHoverCardProps = {
+	trigger: React.ReactNode;
+} & PropsWithChildren &
+	HoverCardContentProps;
+
+function CountryDetialHoverCard({
+	trigger,
+	children,
+	...props
+}: CountryDetialHoverCardProps) {
+	return (
+		<HoverCard
+			openDelay={0}
+			closeDelay={0}
+		>
+			<HoverCardTrigger asChild>{trigger}</HoverCardTrigger>
+			<HoverCardContent
+				side="top"
+				{...props}
+			>
+				{children}
+			</HoverCardContent>
+		</HoverCard>
 	);
 }

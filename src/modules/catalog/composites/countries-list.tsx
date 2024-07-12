@@ -46,6 +46,7 @@ export function CountriesList() {
 							href={`/countries/${country.name.common}?fullText=true`}
 							onClick={(e) => {
 								e.preventDefault();
+								e.stopPropagation();
 								$countryDialogStore.set({
 									fullName: country.name.common,
 									open: true,
