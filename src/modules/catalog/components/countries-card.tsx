@@ -91,9 +91,9 @@ function CountryDetails({ country }: CountryDetailProps) {
 						className="grid w-fit grid-cols-[auto,_1fr] gap-4"
 					>
 						{Object.entries(country?.name.nativeName).map((entry) => (
-							<Fragment key={entry[0] + entry[1].common}>
+							<Fragment key={entry[0] + entry[1]?.common}>
 								<TypographyMuted>{entry[0]}</TypographyMuted>
-								{entry[1].common}
+								{entry[1]?.common}
 							</Fragment>
 						))}
 					</CountryDetialHoverCard>

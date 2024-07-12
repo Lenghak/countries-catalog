@@ -2,12 +2,12 @@ import {
 	CountriesCard,
 	CountriesCardSkeleton,
 } from "@/modules/catalog/components/countries-card";
-import { $countryDialogStore } from "@/modules/catalog/stores/country-dialog-store";
+import { CountriesLink } from "@/modules/catalog/components/countries-link";
 import { ErrorSection } from "@/modules/error/composites/error-section";
 
-import { TypographyH3 } from "@/common/components/ui/h3";
-
 import { countriesKeys } from "@/common/services/keys-factory";
+
+import { TypographyH3 } from "@ui/h3";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { type AxiosError, type AxiosResponse } from "axios";
@@ -34,25 +34,14 @@ export function CountriesList() {
 		<div className="grid w-full grid-cols-1 gap-12 p-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
 			{queryState?.status === "success"
 				? response?.data?.map((country) => (
-						<a
+						<CountriesLink
+							to={`/countries-catalog/countries/${country?.name.common}?fullText=true`}
+							type="name"
+							countryFullName={country?.name.common}
 							key={country.name.common}
-							href={`/countries/${country.name.common}?fullText=true`}
-							onClick={(e) => {
-								e.preventDefault();
-								e.stopPropagation();
-								$countryDialogStore.set({
-									fullName: country.name.common,
-									open: true,
-								});
-								history.pushState(
-									undefined,
-									"",
-									`/countries/${country.name.common}?fullText=true`,
-								);
-							}}
 						>
 							<CountriesCard country={country} />
-						</a>
+						</CountriesLink>
 					))
 				: undefined}
 

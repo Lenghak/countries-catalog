@@ -50,7 +50,10 @@ export const CountrySchema = z.object({
 	postalCode: z.object({ format: z.string(), regex: z.string() }),
 });
 
-export const CountriesRequestSchema = z.object({ name: z.string() });
+export const CountriesRequestSchema = z.object({
+	name: z.string().optional(),
+	alpha: z.string().optional(),
+});
 
 export const CountriesResponseSchema = z.array(CountrySchema);
 

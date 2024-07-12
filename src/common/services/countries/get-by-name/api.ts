@@ -5,7 +5,7 @@ import type {
 	CountriesResponseType,
 } from "@/common/types/countries";
 
-export async function getCountryDetailApi({ name }: CountriesRequestType) {
+export async function getCountryByNameApi({ name }: CountriesRequestType) {
 	return axiosInstance.get<CountriesResponseType>(
 		`/v3.1/name/${name}?fullText=true`,
 	);
